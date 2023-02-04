@@ -1,0 +1,77 @@
+.answer {
+  display: inline;
+}
+
+.answerArea {
+  text-align: center;
+  margin-inline: 10%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #ffe4e1;
+  border: #8a0063 solid 4px;
+}
+
+.excBtn {
+  border: #8a0063 solid 3px;
+  background-color: #fddde6;
+  border-radius: 8px;
+  color: #8a0063;
+  padding: 25px 30px 25px 30px;
+  margin: 30px;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.excArea {
+  text-align: center;
+}
+
+.info {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main {
+  margin: 3%;
+  background-color: #ffb6c1;
+  border: #8a0063 double 15px;
+}
+
+.numberbtn {
+  border: #8a0063 solid 3px;
+  background-color: #fddde6;
+  border-radius: 8px;
+  color: #8a0063;
+  padding: 25px 30px 25px 30px;
+  margin: 30px;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.numbtnArea {
+  text-align: center;
+}
+
+.operatorBtn {
+  border: #8a0063 solid 3px;
+  border-radius: 8px;
+  background-color: #fddde6;
+  color: #8a0063;
+  padding: 25px 30px 25px 30px;
+  margin: 30px;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.opArea {
+  text-align: center;
+}
+
+.scoreText {
+  align-self: flex-start;
+}
+
+.timeText {
+  align-self: flex-end;
+}

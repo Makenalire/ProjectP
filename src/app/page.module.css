@@ -1,0 +1,20 @@
+.main {
+  padding: 6rem;
+  min-height: 100vh;
+}
+
+.menu{
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+.buttonGroup {
+  display: inline-block;
+  font-size: 18px;
+  padding: 1rem;
+  margin-top: 10px;
+  background-color: pink;
+  border-radius: 10px;
+  width: fit-content;
+  height: fit-content;
+}
