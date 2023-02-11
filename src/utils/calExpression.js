@@ -10,7 +10,7 @@ class calExpression {
   }
 
   calculateExpression(expression) {
-    console.log("Expression:" + expression);
+    //console.log("Expression:" + expression);
     let forwardIndex;
     let i = 1;
 
@@ -40,7 +40,7 @@ class calExpression {
 
       i += 2;
     }
-    console.log("Sum" + this.sum);
+    //console.log("Sum" + this.sum);
     return this.sum;
   }
 
@@ -72,42 +72,68 @@ class calExpression {
 
   calParenthesis(exp) {
     let expression = exp;
-    let parenthesis = 0;
+    let parenthesis;
     let newExpression;
     let firstIndex;
     let lastIndex;
     let trigger = false;
+    let backParenIndex;
     do {
+      parenthesis = 0;
       newExpression = [];
-      for (let token of expression) {
-        if (trigger) {
-          if (token !== ")") {
-            newExpression.push(token);
-          }
-        }
-        if (token === "(") {
+      backParenIndex = 0;
+      //console.log("Expression before splice" + expression);
+      for (let i = 0; i < expression.length; i++) {
+        if (expression[i] === "(") {
           if (parenthesis === 0) {
             trigger = true;
-            firstIndex = expression.indexOf(token);
+            firstIndex = i;
           }
           parenthesis += 1;
-        } else if (token === ")") {
+          //console.log("expression[i] : " + i + " Parenthesis Count " + parenthesis)
+        } else if (expression[i] === ")") {
           parenthesis -= 1;
+          //console.log("expression[i] : " + i + " Parenthesis Count " + parenthesis)
           if (parenthesis === 0) {
             trigger = false;
-            lastIndex = expression.indexOf(token);
+            lastIndex = i;
+            break;
           }
         }
+
+        if (trigger) {
+          // if (expression[i] === ")") {
+          //   if (backParenIndex >= 1) {
+          //     newExpression.push(expression[i]);
+          //   }
+          //   backParenIndex++;
+          // } else if (expression[i] !== ")") {
+          //   newExpression.push(expression[i]);
+          // }
+          //console.log("asdadas " + i + "  last  " + lastIndex);
+          if (i !== firstIndex) {
+            newExpression.push(expression[i]);
+            //console.log("newExp " + newExpression);
+          }
+        }
+      }
+      if (parenthesis !== 0) {
+        return [];
       }
       if (newExpression.length !== 0) {
         let newValue = new calExpression().calculateExpression(newExpression);
-        console.log(expression[lastIndex - firstIndex + 1]);
-        console.log("New Expression:" + newExpression);
+        //console.log("New Expression:" + newExpression);
+        //console.log("Splice First:" + firstIndex + " Last " + lastIndex);
+        //console.log("Splicey1" + expression);
         expression.splice(firstIndex, lastIndex - firstIndex + 1);
+        //console.log("Splicey2" + expression);
         expression.splice(firstIndex, 0, newValue + "");
       }
-      console.log(expression);
-    } while (expression.includes("("));
+      //console.log("Expression after splice" +expression);
+    } while (
+      (expression.includes("(") || expression.includes(")")) &&
+      parenthesis === 0
+    );
 
     return expression;
   }

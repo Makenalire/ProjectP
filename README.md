@@ -12,6 +12,6 @@ yarn dev
 pnpm dev
 ```
 
-## Version 0.1.1
+## Version 0.1.1 & 0.1.2
 
 - Fixed a bug where the expression calculator function does not work properly when multiple parentheses exist.
