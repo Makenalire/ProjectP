@@ -15,6 +15,7 @@ class calExpression {
     let i = 1;
 
     this.tokens = this.calParenthesis(expression);
+    this.tokens = this.calNegative(this.tokens);
     this.sum = parseInt(this.tokens[0]);
 
     while (i < this.tokens.length) {
@@ -128,6 +129,14 @@ class calExpression {
         expression.splice(firstIndex, lastIndex - firstIndex + 1);
         //console.log("Splicey2" + expression);
         expression.splice(firstIndex, 0, newValue + "");
+        if (isNumberic(+expression[firstIndex + 1])) {
+          expression.splice(firstIndex + 1, 0, "*");
+          //console.log(expression);
+        }
+        if (isNumberic(+expression[firstIndex - 1])) {
+          expression.splice(firstIndex, 0, "*");
+          //console.log(expression);
+        } 
       }
       //console.log("Expression after splice" +expression);
     } while (
@@ -137,4 +146,38 @@ class calExpression {
 
     return expression;
   }
+
+  calNegative(exp) {
+    let expression = exp;
+    let minusCount = 0;
+    let firstMinusIndex;
+    let lastMinusIndex;
+    for (let i = 0; i < expression.length; i++) {
+      if (expression[i] === "-") {
+        if (minusCount === 0) {
+          firstMinusIndex = i
+        }
+        minusCount++;
+      }
+      else {
+        if (minusCount !== 0) {
+          lastMinusIndex = i - 1
+          expression.splice(firstMinusIndex, lastMinusIndex - firstMinusIndex + 1);
+          if (firstMinusIndex === 0) {
+            expression[i - minusCount] = minusCount % 2 === 0? expression[i - minusCount]: -expression[i - minusCount] + "";
+          } else {
+            expression.splice(firstMinusIndex, 0, minusCount % 2 === 0? "+": "-");
+          }
+          i -= minusCount - 1;
+          minusCount = 0;
+        }
+      }
+    }
+    return expression;
+  }
+
+}
+
+function isNumberic(value) {
+  return !isNaN(value - parseFloat(value));
 }
