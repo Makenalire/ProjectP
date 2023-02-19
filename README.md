@@ -12,10 +12,6 @@ yarn dev
 pnpm dev
 ```
 
-## Version 0.1.1 & 0.1.2 & 0.1.3
-
-- Fixed a bug where the expression calculator function does not work properly when multiple parentheses exist.
-
 ## Version 0.2.0
 
 - Implemented the score function.
