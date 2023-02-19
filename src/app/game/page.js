@@ -4,12 +4,16 @@ import createQuestion from "@/utils/createQuestion";
 import { useEffect, useState } from "react";
 import calculateExpression from "@/utils/calExpression";
 import Timer from "@/components/Timer";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, reset } from "@/redux/score";
 
 export default function Game() {
   const [question, setQuestion] = useState([0, 0, 0, 0]);
   const [answer, setAnswer] = useState([""]);
   const [clickedAns, setclickedAns] = useState([]);
   const [checkAnswer, setCheckAnswer] = useState("");
+  const dispatch = useDispatch();
+  const score = useSelector((state) => state.scoreCount.score);
 
   const addNumber = (number, disabledIds) => {
     setAnswer((previousState) => {
@@ -29,6 +33,7 @@ export default function Game() {
 
   useEffect(() => {
     setQuestion(createQuestion());
+    dispatch(reset());
   }, []);
 
   const nextQuestion = () => {
@@ -48,6 +53,8 @@ export default function Game() {
     const totalValue = calculateExpression(ans);
     if (totalValue === 24) {
       setCheckAnswer("Correct Answer");
+      dispatch(increment());
+      nextQuestion();
     } else {
       if (isNaN(totalValue)) {
         setCheckAnswer("Incorrect arithmetic expression");
@@ -67,7 +74,7 @@ export default function Game() {
   return (
     <main className={styles.main}>
       <div className={styles.info}>
-        <h1 className={styles.scoreText}>SCORE: </h1>
+        <h1 className={styles.scoreText}>SCORE: {score}</h1>
         <Timer />
       </div>
       <div className={styles.numbtnArea}>

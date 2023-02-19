@@ -1,8 +1,12 @@
+import { summary } from "@/redux/score";
+import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 function Timer({ start }) {
   const [time, setTime] = useState(10);
   const timer = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     clearTimer(10);
@@ -11,7 +15,8 @@ function Timer({ start }) {
   useEffect(() => {
     if (time <= 0) {
       clearInterval(timer.current);
-      setTime("Time's up! but you can still play the game.");
+      setTime(<Link href={"/"}>Back</Link>);
+      dispatch(summary());
     }
   }, [time]);
 
