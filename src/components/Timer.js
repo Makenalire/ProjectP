@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
+import TestModal from "./Modal";
+
 
 function Timer({ start }) {
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(5);
   const timer = useRef();
-
   useEffect(() => {
     clearTimer(10);
   }, []);
 
   useEffect(() => {
     if (time <= 0) {
+      setTime(<TestModal/>);
       clearInterval(timer.current);
-      setTime("Time's up! but you can still play the game.");
+      
     }
   }, [time]);
 
@@ -33,8 +35,10 @@ function Timer({ start }) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>{formatTime(time)}</h1>
+        <h1>{formatTime(time)}</h1>
+        
     </div>
+
   );
 }
 

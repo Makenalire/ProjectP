@@ -10,7 +10,7 @@ export default function Game() {
   const [answer, setAnswer] = useState([""]);
   const [clickedAns, setclickedAns] = useState([]);
   const [checkAnswer, setCheckAnswer] = useState("");
-
+  const [scoreNum, setScoreNum] = useState(100);
   const addNumber = (number, disabledIds) => {
     setAnswer((previousState) => {
       return [...previousState, number];
@@ -26,9 +26,9 @@ export default function Game() {
       return [...previousState, operator];
     });
   };
-
   useEffect(() => {
     setQuestion(createQuestion());
+    
   }, []);
 
   const nextQuestion = () => {
@@ -44,9 +44,11 @@ export default function Game() {
     for (let ansMember of answer) {
       ans += ansMember;
     }
-
     const totalValue = calculateExpression(ans);
     if (totalValue === 24) {
+      setScoreNum((score) => score + 1);
+      nextQuestion();
+      resetAns();
       setCheckAnswer("Correct Answer");
     } else {
       if (isNaN(totalValue)) {
@@ -67,9 +69,11 @@ export default function Game() {
   return (
     <main className={styles.main}>
       <div className={styles.info}>
-        <h1 className={styles.scoreText}>SCORE: </h1>
+        <h1 className={styles.scoreText}>SCORE: {scoreNum} </h1>
+
         <Timer />
       </div>
+
       <div className={styles.numbtnArea}>
         {question.map((item, index) => {
           return (
