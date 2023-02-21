@@ -15,7 +15,7 @@ export default function Home() {
       <div className={styles.menu}>
         <h1>Retro Number Cruncher</h1>
         <div>
-          <Link href="/game" className={styles.buttonGroup}>START</Link>
+          <Link href="./game" className={styles.buttonGroup}>START</Link>
         </div>
         <h3>
           {highScore > 0? "Highest Score : " + highScore : null}

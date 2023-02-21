@@ -14,7 +14,7 @@ export default function Game() {
   const [checkAnswer, setCheckAnswer] = useState("");
   const dispatch = useDispatch();
   const score = useSelector((state) => state.scoreCount.score);
-
+  
   const addNumber = (number, disabledIds) => {
     setAnswer((previousState) => {
       return [...previousState, number];
