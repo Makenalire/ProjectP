@@ -86,6 +86,9 @@ class calExpression {
       //console.log("Expression before splice" + expression);
       for (let i = 0; i < expression.length; i++) {
         if (expression[i] === "(") {
+          if (expression[i + 1] === ")") {
+            return [];
+          }
           if (parenthesis === 0) {
             trigger = true;
             firstIndex = i;
@@ -138,7 +141,7 @@ class calExpression {
           //console.log(expression);
         } 
       }
-      //console.log("Expression after splice" +expression);
+      console.log("Expression after splice" +expression);
     } while (
       (expression.includes("(") || expression.includes(")")) &&
       parenthesis === 0

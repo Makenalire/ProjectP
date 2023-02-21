@@ -3,3 +3,11 @@
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 }
+
+body {
+  margin: 0px;
+}
+
+button {
+  font-family: var(--font-press_start_2p);
+}

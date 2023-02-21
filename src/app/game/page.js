@@ -6,12 +6,15 @@ import calculateExpression from "@/utils/calExpression";
 import Timer from "@/components/Timer";
 import { useDispatch, useSelector } from "react-redux";
 import { increment, reset } from "@/redux/score";
+import Link from "next/link";
 
 export default function Game() {
   const [question, setQuestion] = useState([0, 0, 0, 0]);
   const [answer, setAnswer] = useState([""]);
   const [clickedAns, setclickedAns] = useState([]);
   const [checkAnswer, setCheckAnswer] = useState("");
+  const [showScore, setShowScore] = useState(false);
+  const [showIncorrect, setShowIncorrect] = useState(false);
   const dispatch = useDispatch();
   const score = useSelector((state) => state.scoreCount.score);
 
@@ -52,7 +55,8 @@ export default function Game() {
 
     const totalValue = calculateExpression(ans);
     if (totalValue === 24) {
-      setCheckAnswer("Correct Answer");
+      setShowScore(true);
+      setTimeout(() => setShowScore(false), 2000);
       dispatch(increment());
       nextQuestion();
     } else {
@@ -61,6 +65,8 @@ export default function Game() {
       } else {
         setCheckAnswer("Incorrect Answer");
       }
+      setShowIncorrect(true);
+      setTimeout(() => setShowIncorrect(false), 1000);
     }
     console.log("totalValue " + totalValue);
   };
@@ -72,69 +78,124 @@ export default function Game() {
   };
 
   return (
-    <main className={styles.main}>
-      <div className={styles.info}>
-        <h1 className={styles.scoreText}>SCORE: {score}</h1>
-        <Timer />
-      </div>
-      <div className={styles.numbtnArea}>
-        {question.map((item, index) => {
-          return (
+
+    <main className={styles.body}>
+      <div className={styles.containerOut}>
+        <div className={styles.containerIn}>
+          <div className={styles.headerContainer}>
+            <div className={styles.boxScoreOut}>
+              <div className={styles.boxScoreIn}>
+                <p className={styles.score}>SCORE : {score}</p>
+                
+              </div>
+            </div>
+            {showScore && <p className={styles.scorePlus}> +1 </p>}
+            <div className={styles.boxTimeOut}>
+              <div className={styles.boxTimeIn}>
+                <Timer propstyle={styles.time} />
+              </div>
+            </div>
+          </div>
+          <div className={styles.numbtnArea}>
+            {question.map((item, index) => {
+              return (
+                <button
+                  className={styles.number}
+                  key={index}
+                  disabled={clickedAns.includes(index)}
+                  onClick={() => addNumber(item, index)}
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </div>
+          <p className={styles.anstxt}>YOUR ANSWER</p>
+          <div className={styles.boxInputOut}>
+            <div className={styles.boxInputIn}>
+              {answer.map((item, index) => {
+                return (
+                  <h2 key={index} className={styles.answer}>
+                    {item}&nbsp;
+                  </h2>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={styles.incorrect}>
+            {showIncorrect && <h3>&nbsp;{checkAnswer}</h3>}
+          </div>
+
+          <div className={styles.opArea}>
             <button
-              className={styles.numberbtn}
-              key={index}
-              disabled={clickedAns.includes(index)}
-              onClick={() => addNumber(item, index)}
+              onClick={() => addOperator("+")}
+              className={styles.operatorBtn}
             >
-              {item}
+              +
             </button>
-          );
-        })}
-      </div>
+            <button
+              onClick={() => addOperator("-")}
+              className={styles.operatorBtn}
+            >
+              -
+            </button>
+            <button
+              onClick={() => addOperator("*")}
+              className={styles.operatorBtn}
+            >
+              *
+            </button>
+            <button
+              onClick={() => addOperator("/")}
+              className={styles.operatorBtn}
+            >
+              /
+            </button>
+            <button
+              onClick={() => addOperator("(")}
+              className={styles.operatorBtn}
+            >
+              {"("}
+            </button>
+            <button
+              onClick={() => addOperator(")")}
+              className={styles.operatorBtn}
+            >
+              {")"}
+            </button>
+            <button onClick={resetAns} className={styles.operatorBtn}>
+              Reset
+            </button>
+          </div>
+          <div className={styles.executionContainer}>
+            <div className={styles.boxSkipOut}>
+              <div className={styles.boxSkipIn}>
+                <button
+                  type="button"
+                  className={styles.skip}
+                  onClick={nextQuestion}
+                >
+                  SKIP
+                </button>
+              </div>
+            </div>
+            <div className={styles.boxSubmitOut}>
+              <div className={styles.boxSubmitIn}>
+                <button
+                  type="submit"
+                  className={styles.submit}
+                  onClick={submit}
+                >
+                  SUMBIT
+                </button>
+              </div>
+            </div>
+          </div>
 
-      <div className={styles.answerArea}>
-        {answer.map((item, index) => {
-          return (
-            <h2 key={index} className={styles.answer}>
-              {item}&nbsp;
-            </h2>
-          );
-        })}
+          
+        </div>
       </div>
-
-      <div className={styles.opArea}>
-        <button onClick={() => addOperator("+")} className={styles.operatorBtn}>
-          +
-        </button>
-        <button onClick={() => addOperator("-")} className={styles.operatorBtn}>
-          -
-        </button>
-        <button onClick={() => addOperator("*")} className={styles.operatorBtn}>
-          *
-        </button>
-        <button onClick={() => addOperator("/")} className={styles.operatorBtn}>
-          /
-        </button>
-        <button onClick={() => addOperator("(")} className={styles.operatorBtn}>
-          {"("}
-        </button>
-        <button onClick={() => addOperator(")")} className={styles.operatorBtn}>
-          {")"}
-        </button>
-        <button onClick={resetAns} className={styles.operatorBtn}>
-          Reset
-        </button>
-      </div>
-
-      <div className={styles.excArea}>
-        <button onClick={nextQuestion} className={styles.excBtn}>
-          Skip
-        </button>
-        <button onClick={submit} className={styles.excBtn}>
-          Submit
-        </button>
-      </div>
-      <h1 style={{textAlign:"center"}}>&nbsp;{checkAnswer}</h1>
     </main>
   );
 }

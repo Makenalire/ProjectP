@@ -2,21 +2,25 @@ import { summary } from "@/redux/score";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import TestModal from "./Modal";
 
-function Timer({ start }) {
-  const [time, setTime] = useState(10);
+const TIME = 40;
+
+function Timer({ propstyle }) {
+  const [time, setTime] = useState(TIME);
+  const [showModal,setShowModal] = useState(false);
   const timer = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clearTimer(10);
+    clearTimer(TIME);
   }, []);
 
   useEffect(() => {
     if (time <= 0) {
       clearInterval(timer.current);
-      setTime(<Link href={"/"}>Back</Link>);
-      dispatch(summary());
+      setTime("Time's up!");
+      setShowModal(true);
     }
   }, [time]);
 
@@ -37,8 +41,9 @@ function Timer({ start }) {
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>{formatTime(time)}</h1>
+    <div>
+      <p className={propstyle}>{formatTime(time)}</p>
+      {showModal && <TestModal setShowModal={setShowModal}/>}
     </div>
   );
 }
