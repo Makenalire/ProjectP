@@ -1,6 +1,6 @@
 export default function createQuestion() {
   let question = createNumberList();
-  while (question === undefined) {
+  while (question === undefined || question[3] === 0) {
     question = createNumberList();
   }
   return question;

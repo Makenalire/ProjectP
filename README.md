@@ -12,6 +12,7 @@ yarn dev
 pnpm dev
 ```
 
-## Version 1.0
+## Version 1.1
 
-- The game has been released!
+- Reworked User Interface.
+- Added user authentication.

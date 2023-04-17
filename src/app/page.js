@@ -1,46 +1,36 @@
-"use client";
-
+// import clientPromise from "@/lib/mongodb";
 import Link from "next/link";
 import styles from "./page.module.css";
-import { useSelector } from "react-redux";
+import HighScore from "@/components/HighScore";
+import AccountHeader from "@/components/AccountHeader";
 
+// async function getData(req, res) {
+//   try {
+//     const client = await clientPromise;
+//     const db = client.db("auth");
+//     const id = await db.collection("users").find({email : "nahida@gmail.com"}).toArray();
+//     return id;
+//   } catch (e) {
+//     console.error(e);
+//     return false;
+//   }
+// }
 
-
-export default function Home() {
-  const highScore = useSelector((state) => state.scoreCount.highScore);
+export default async function Home() {
+  // const data = await getData();
+  // console.log(data[0].email);
   return (
-    // <main className={styles.main}>
-
-    //   <div className={styles.menu}>
-    //     <h1>Retro Number Cruncher</h1>
-    //     <div>
-    //       <Link href="/game" className={styles.buttonGroup}>START</Link>
-    //     </div>
-    //     <div>
-    //       <Link href="/test" className={styles.buttonGroup}>TEST</Link>
-    //     </div>
-    //     <h3>
-    //       {highScore > 0? "Highest Score : " + highScore : null}
-    //     </h3>
-    //   </div>
-
-    // </main>
-
     <main className={styles.body}>
-      <div className={styles.containerOut}>
-        <div className={styles.containerIn}>
-          <p className={styles.title}>Retro Number Cruncher</p>
-          <div className={styles.boxStartOut}>
-            <div className={styles.boxStartIn}>
-              <Link className={styles.start} href="/game">START</Link>
-            </div>
-          </div>
-          <h3>
-           {highScore > 0? "Highest Score : " + highScore : null}
-         </h3>
-        </div>
+      <p className={styles.title}>Retro Number Cruncher</p>
+      <div className={styles.borderStart}>
+        <Link className={styles.buttonStart} href="/game">
+          START
+        </Link>
       </div>
-           
+      <div className={styles.temporary}>
+        <HighScore></HighScore>
+        <AccountHeader></AccountHeader>
+      </div>
     </main>
   );
 }

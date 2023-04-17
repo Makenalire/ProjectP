@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import "./modal.css"
+import "./styles/modal.css"
 import { summary } from "@/redux/score";
 const TestModal = ({setShowModal}) => {
     const dispatch = useDispatch();
