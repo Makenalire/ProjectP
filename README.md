@@ -12,7 +12,6 @@ yarn dev
 pnpm dev
 ```
 
-## Version 1.1
+## Version 1.1.1
 
-- Reworked User Interface.
-- Added user authentication.
+- User can now sign up

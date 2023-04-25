@@ -16,7 +16,7 @@
   border-radius: 20px;
   box-shadow: 0 0 0 4px #fc46a8, 0 0 0 8px #fff9c5, 0 0 0 12px #fc46a8;
   text-align: center;
-  width: 25%;
+  min-width: 25%;
 }
 
 .headerText {
@@ -34,6 +34,8 @@
   margin: 3% 2%;
   padding: 1% 2.5%;
   box-shadow: inset -8px -8px #8a0063, inset 2px 2px #8a0063;
+  min-width: 70px;
+  min-height: 70px;
 }
 
 .number:disabled {
@@ -63,6 +65,8 @@
   margin-left: 0%;
   text-align: center;
   display: inline;
+  letter-spacing: 10px;
+  line-height: 50px;
 }
 
 .anstxt {
@@ -78,6 +82,8 @@
   box-shadow: 0 0 0 4px #fc46a8, 0 0 0 12px #ffc4e3, 0 0 0 16px #fc46a8;
   text-align: center;
   margin: 30px 10% 30px 10%;
+  padding: 1px 0px;
+  min-height: max-content;
 }
 
 .operatorBtn {
@@ -85,15 +91,18 @@
   border-radius: 8px;
   background-color: #fddde6;
   color: black;
-  margin: 3% 2%;
+  margin: 1% 2%;
   padding: 2% 3%;
   font-weight: bold;
   font-size: 30px;
   box-shadow: inset -8px -8px #8a0063, inset 2px 2px #8a0063;
+  min-width: 70px;
+  min-height: 70px;
 }
 
 .opArea {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .executionContainer {

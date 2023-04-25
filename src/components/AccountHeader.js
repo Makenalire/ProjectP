@@ -1,12 +1,11 @@
 "use client";
-
+// import { authOptions } from "@/pages/api/auth/[...nextauth]";
+// import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function AccountHeader() {
-  const router = useRouter();
+  //const session = await getServerSession(authOptions)
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -14,12 +13,21 @@ export default function AccountHeader() {
   }
 
   if (session) {
-    return <p>Welcome, {session.user.name}</p>;
+    return (
+      <p>
+        Welcome,{" "}
+        <Link style={{ color: "#ffc745" }} href="/account/profile">
+          {session.user.name}
+        </Link>
+      </p>
+    );
   } else {
     return (
-      <Link href="/account" style={{color: "#FFF"}}>
-        SIGN IN
-      </Link>
+      <p>
+        <Link href="/account" style={{ color: "#FFF" }}>
+          SIGN IN
+        </Link>
+      </p>
     );
   }
 }

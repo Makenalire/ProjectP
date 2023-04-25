@@ -16,17 +16,14 @@ function createNumberList() {
     question.length = 0;
     for (var i = 1; i < 4; i++) {
       var nextNum = createNumber(total, i);
-      console.log(nextNum);
       total = nextNum[1];
 
       question.push(nextNum[0]);
     }
   } catch (err) {
-    console.log("error");
     return;
   }
   question.push(Math.abs(total));
-  console.log(question);
   return question;
 }
 

@@ -1,10 +1,12 @@
 "use client";
 
+import styles from "./account.module.css";
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { loginValidate } from "@/lib/formikValidate";
+import Link from "next/link";
 
 export default function Account() {
   const router = useRouter();
@@ -36,7 +38,6 @@ export default function Account() {
     //   password: "12345",
     //   redirect: false,
     // });
-    setError("");
     const result = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -48,31 +49,41 @@ export default function Account() {
     console.log("session = ", session);
     console.log("sessionStatus = ", status);
     if (result.ok) {
-       window.location.replace("/account/profile");
+       window.location.replace("/");
     } else {
-      setError("Incorrect email or password.");
+      setError(result.error);
     }
 
     console.log("status " + status);
   }
   
   return (
-    <div>
+    <main className={styles.body}>
       {status === "loading" ? (
         <p>loading...</p>
       ) : !session ? (
-        <div>
-          <p>Account</p> 
-          <form onSubmit={formik.handleSubmit}>
-            <input type="text" name="email" placeholder="email@example.com" {...formik.getFieldProps("email")} onFocus={() => {setEmailChanged(true)}}/><br/>
-            {formik.errors.email && !emailChanged ? <span>{formik.errors.email}</span> : <></>}<br/>
-            <input type="password" name="password" placeholder="password" {...formik.getFieldProps("password")} onFocus={() => {setPassChanged(true)}}/><br/>
-            {formik.errors.password && !passChanged ? <span>{formik.errors.password}</span> : <></>}<br/>
-            <button type="submit" onClick={() => {setEmailChanged(false); setPassChanged(false);}}>Sign In</button>
+        <div className={styles.formContainer}>
+          <p className={styles.header}>Account</p> 
+          <form className={styles.form} onSubmit={formik.handleSubmit}>
+            <div className={styles.inputBox}>
+              
+            <input className={styles.input} type="text" name="email" {...formik.getFieldProps("email")} onFocus={() => {setEmailChanged(true)}} required/>
+            <label className={styles.inputLabel}>Email</label>
+            {formik.errors.email && !emailChanged ? <span className={styles.error}>{formik.errors.email}</span> : <div></div>}
+            </div>
+            <div className={styles.inputBox}>
+            <input className={styles.input} type="password" name="password" {...formik.getFieldProps("password")} onFocus={() => {setPassChanged(true)}} required/>
+            <label className={styles.inputLabel}>Password</label>
+            {formik.errors.password && !passChanged ? <span className={styles.error}>{formik.errors.password}</span> : <div></div>}
+            </div>
+            <p className={styles.invalid}>{error}&nbsp;</p>
+            <button className={styles.submit} type="submit" onClick={() => {setEmailChanged(false); setPassChanged(false); setError("");}}>Sign in</button>
+            <div className={styles.register}>
+              <p className={styles.register}>Wanna be in the leaderboard? <Link className={styles.registerLink} href="./account/register">Register</Link></p>
+            </div>
           </form>
-          <p>{error}</p>
         </div>
       ) : null}
-    </div>
+    </main>
   );
 }

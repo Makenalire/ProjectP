@@ -19,11 +19,16 @@ export const authOptions = {
 
         const { email, password } = credentials;
         const client = await clientPromise;
-        const db = client.db("auth");
-        const user = await db.collection("users").findOne({ email });
+        
+        const db = client.db("auth")
+        const user = await db.collection("users").findOne({ email }).catch(err => {
+          throw new Error("Failed to connect to database");
+        });
+
         if (!user || user.password !== password) {
           throw new Error("Incorrect email or password");
         }
+        
         return user;
 
       },

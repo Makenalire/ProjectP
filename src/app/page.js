@@ -21,15 +21,24 @@ export default async function Home() {
   // console.log(data[0].email);
   return (
     <main className={styles.body}>
-      <p className={styles.title}>Retro Number Cruncher</p>
-      <div className={styles.borderStart}>
-        <Link className={styles.buttonStart} href="/game">
-          START
-        </Link>
-      </div>
-      <div className={styles.temporary}>
-        <HighScore></HighScore>
+      <div style={{position: "absolute", top: "5%", right: "5%"}}>
         <AccountHeader></AccountHeader>
+      </div>
+      <div className={styles.menuContainer}>
+        <p className={styles.title}>Retro Number Cruncher</p>
+        <div className={styles.borderStart}>
+          <Link className={styles.buttonStart} href="/game">
+            START
+          </Link>
+        </div>
+        <div className={styles.borderStart}>
+          <Link className={styles.buttonStart} href="/game">
+            Rank
+          </Link>
+        </div>
+        <div className={styles.temporary}>
+          <HighScore></HighScore>
+        </div>
       </div>
     </main>
   );

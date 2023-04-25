@@ -1,28 +1,37 @@
 "use client";
 import styles from "./game.module.css";
 import createQuestion from "@/utils/createQuestion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import calculateExpression from "@/utils/calExpression";
 import Timer from "@/components/Timer";
-import { useDispatch, useSelector } from "react-redux";
-import { increment, reset } from "@/redux/score";
 import Link from "next/link";
 import RotateIcon from "public/rotateRight";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, reset } from "@/redux/score";
+import { useSession } from "next-auth/react";
 
-export default function Game() {
+export default function Game({ userID }) {
   const [question, setQuestion] = useState([0, 0, 0, 0]);
   const [displayAnswer, setDisplayAnswer] = useState([""]);
   const [clickedAns, setclickedAns] = useState([]);
   const [checkAnswer, setCheckAnswer] = useState("");
-  const [showScore, setShowScore] = useState(false);
   const [showIncorrect, setShowIncorrect] = useState(false);
+  const [showScore, setShowScore] = useState(false);
   const answer = useRef("");
-  const dispatch = useDispatch();
+  const values = useRef({
+    BASE: 1,
+    additive: 0,
+    streak: 0,
+    final_multipier: 1,
+  });
   const score = useSelector((state) => state.scoreCount.score);
+  const scorePlus = useSelector((state) => state.scoreCount.scorePlus);
+  const dispatch = useDispatch();
+  const { data: session } = useSession();
 
   const addNumber = (number, disabledIds) => {
     setDisplayAnswer((previousState) => {
-      return [...previousState, number];
+      return previousState + number;
     });
     setclickedAns([...clickedAns, disabledIds]);
     answer.current = answer.current + number;
@@ -33,7 +42,7 @@ export default function Game() {
       return;
     }
     setDisplayAnswer((previousState) => {
-      return [...previousState, display];
+      return previousState + display;
     });
     answer.current = answer.current + operator;
   };
@@ -55,9 +64,17 @@ export default function Game() {
 
     const totalValue = calculateExpression(answer.current);
     if (totalValue === 24) {
+      dispatch(
+        increment({
+          base: values.current.BASE,
+          additive: values.current.additive,
+          streak: values.current.streak,
+          final_multipier: values.current.final_multipier,
+        })
+      );
       setShowScore(true);
       setTimeout(() => setShowScore(false), 2000);
-      dispatch(increment());
+      values.current.streak += 1;
       nextQuestion();
     } else {
       if (isNaN(totalValue)) {
@@ -78,15 +95,46 @@ export default function Game() {
     answer.current = "";
   };
 
+  const gameResult = async () => {
+    if (session) {
+      const id = session.user.id;
+      console.log("HI " + id);
+      try {
+        // let res = await fetch("http://localhost:3000/api/db/getScore", {
+        //   method: "POST",
+        //   body: JSON.stringify({
+        //     id,
+        //   }),
+        //   headers: {
+        //     Accept: "application/json, text/plain",
+        //     "Content-Type": "application/json",
+        //   },
+        // });
+        let res = await fetch("http://localhost:3000/api/db?id=" + id);
+        res = await res.json();
+        // Check if the user has stored score in database.
+        if (res) {
+          console.log("You already store the score");
+        }
+        else {
+          console.log("Add scores");
+        }
+        console.log("respond " + JSON.stringify(res, 2, null));
+      } catch (e) {console.log(e)}
+    } else {
+      console.log("GUEST");
+    }
+  };
+
   return (
     <main className={styles.body}>
       <div className={styles.headerContainer}>
         <div className={styles.headerBorder}>
-          <p className={styles.headerText}>SCORE : {score}</p>
+          <p className={styles.headerText}>SCORE: {score}</p>
         </div>
-        {showScore && <p className={styles.scorePlus}> +1 </p>}
+        {showScore && <p className={styles.scorePlus}> +{scorePlus} </p>}
         <div className={styles.headerBorder}>
-          <Timer propstyle={styles.headerText} />
+          <Timer propstyle={styles.headerText} gameResult={gameResult} />
         </div>
       </div>
       <div className={styles.numbtnArea}>
@@ -105,13 +153,7 @@ export default function Game() {
       </div>
       <p className={styles.anstxt}>YOUR ANSWER</p>
       <div className={styles.inputBorder}>
-        {displayAnswer.map((item, index) => {
-          return (
-            <h2 key={index} className={styles.answer}>
-              {item}&nbsp;
-            </h2>
-          );
-        })}
+        <h2 className={styles.answer}>{displayAnswer}&nbsp;</h2>
       </div>
 
       <div className={styles.incorrect}>
@@ -119,22 +161,40 @@ export default function Game() {
       </div>
 
       <div className={styles.opArea}>
-        <button onClick={() => addOperator("+", "+")} className={styles.operatorBtn}>
+        <button
+          onClick={() => addOperator("+", "+")}
+          className={styles.operatorBtn}
+        >
           +
         </button>
-        <button onClick={() => addOperator("-", "-")} className={styles.operatorBtn}>
+        <button
+          onClick={() => addOperator("-", "-")}
+          className={styles.operatorBtn}
+        >
           -
         </button>
-        <button onClick={() => addOperator("\u00D7", "*")} className={styles.operatorBtn}>
+        <button
+          onClick={() => addOperator("\u00D7", "*")}
+          className={styles.operatorBtn}
+        >
           {"\u00D7"}
         </button>
-        <button onClick={() => addOperator("\u00F7", "/")} className={styles.operatorBtn}>
+        <button
+          onClick={() => addOperator("\u00F7", "/")}
+          className={styles.operatorBtn}
+        >
           {"\u00F7"}
         </button>
-        <button onClick={() => addOperator("(", "(")} className={styles.operatorBtn}>
+        <button
+          onClick={() => addOperator("(", "(")}
+          className={styles.operatorBtn}
+        >
           {"("}
         </button>
-        <button onClick={() => addOperator(")", ")")} className={styles.operatorBtn}>
+        <button
+          onClick={() => addOperator(")", ")")}
+          className={styles.operatorBtn}
+        >
           {")"}
         </button>
         <button onClick={resetAns} className={styles.operatorBtn}>
@@ -143,7 +203,14 @@ export default function Game() {
       </div>
       <div className={styles.executionContainer}>
         <div className={styles.skipBorder}>
-          <button type="button" className={styles.skip} onClick={nextQuestion}>
+          <button
+            type="button"
+            className={styles.skip}
+            onClick={() => {
+              nextQuestion();
+              values.current.streak = 0;
+            }}
+          >
             <RotateIcon color="#FF2B9D" /> SKIP NUMBER
           </button>
         </div>

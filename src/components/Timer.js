@@ -4,9 +4,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import TestModal from "./Modal";
 
-const TIME = 40;
+const TIME = 4;
 
-function Timer({ propstyle }) {
+// This function receive gameResult parameter as a function.
+function Timer({ propstyle, gameResult }) {
   const [time, setTime] = useState(TIME);
   const [showModal,setShowModal] = useState(false);
   const timer = useRef();
@@ -19,6 +20,7 @@ function Timer({ propstyle }) {
   useEffect(() => {
     if (time <= 0) {
       clearInterval(timer.current);
+      gameResult();
       setTime("Time's up!");
       setShowModal(true);
     }
