@@ -32,7 +32,7 @@ export default async function Home() {
           </Link>
         </div>
         <div className={styles.borderStart}>
-          <Link className={styles.buttonStart} href="/game">
+          <Link className={styles.buttonStart} href="/leaderboard">
             Rank
           </Link>
         </div>

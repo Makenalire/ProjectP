@@ -110,7 +110,7 @@ export default function Game({ userID }) {
         //     "Content-Type": "application/json",
         //   },
         // });
-        let res = await fetch("http://localhost:3000/api/db?id=" + id);
+        let res = await fetch("http://localhost:3000/api/score?id=" + id);
         res = await res.json();
         // Check if the user has stored score in database.
         if (res) {
