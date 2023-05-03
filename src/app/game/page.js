@@ -1,16 +1,15 @@
 "use client";
 import styles from "./game.module.css";
 import createQuestion from "@/utils/createQuestion";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import calculateExpression from "@/utils/calExpression";
 import Timer from "@/components/Timer";
-import Link from "next/link";
 import RotateIcon from "public/rotateRight";
 import { useDispatch, useSelector } from "react-redux";
 import { increment, reset } from "@/redux/score";
 import { useSession } from "next-auth/react";
 
-export default function Game({ userID }) {
+export default function Game() {
   const [question, setQuestion] = useState([0, 0, 0, 0]);
   const [displayAnswer, setDisplayAnswer] = useState([""]);
   const [clickedAns, setclickedAns] = useState([]);
@@ -100,27 +99,51 @@ export default function Game({ userID }) {
       const id = session.user.id;
       console.log("HI " + id);
       try {
-        // let res = await fetch("http://localhost:3000/api/db/getScore", {
-        //   method: "POST",
-        //   body: JSON.stringify({
-        //     id,
-        //   }),
-        //   headers: {
-        //     Accept: "application/json, text/plain",
-        //     "Content-Type": "application/json",
-        //   },
-        // });
         let res = await fetch("http://localhost:3000/api/score?id=" + id);
         res = await res.json();
+
         // Check if the user has stored score in database.
         if (res) {
           console.log("You already store the score");
-        }
-        else {
+          console.log(res.score);
+          if (score > +res.score) {
+            let post = await fetch("http://localhost:3000/api/score", {
+              method: "POST",
+              body: JSON.stringify({
+                id: id,
+                score: score,
+                operation: "update",
+              }),
+              headers: {
+                Accept: "application/json, text/plain",
+                "Content-Type": "application/json",
+              },
+            });
+            post = await post.json();
+          }
+        } else {
           console.log("Add scores");
+          if (score > 0) {
+            let post = await fetch("http://localhost:3000/api/score", {
+              method: "POST",
+              body: JSON.stringify({
+                id: id,
+                score: score,
+                name: session.user.name,
+                operation: "add",
+              }),
+              headers: {
+                Accept: "application/json, text/plain",
+                "Content-Type": "application/json",
+              },
+            });
+            post = await post.json();
+          }
         }
         console.log("respond " + JSON.stringify(res, 2, null));
-      } catch (e) {console.log(e)}
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       console.log("GUEST");
     }

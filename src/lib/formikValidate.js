@@ -27,7 +27,7 @@ export function registerValidate(values) {
     errors.password = "Must be greater than 2 and less than 10 characters long";
   }
 
-  if (values.confirm.length !== values.password) {
+  if (values.confirm !== values.password) {
     errors.confirm = "Those passwords did not match";
   }
 

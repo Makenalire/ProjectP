@@ -15,7 +15,8 @@
 
 .borderStart {
   background-color: #fffeeb;
-  box-shadow: inset 0 0 0 6px #fc46a8, inset 0 0 0 18px #fff9c5, inset 0 0 0 24px #fc46a8;
+  box-shadow: inset 0 0 0 6px #fc46a8, inset 0 0 0 18px #fff9c5,
+    inset 0 0 0 24px #fc46a8;
   margin: 0 auto;
   margin-bottom: 20px;
   width: 20%;
@@ -35,6 +36,12 @@
 .buttonStart:hover {
   background-color: #e75480;
   color: #fff;
+}
+
+.header {
+  position: absolute;
+  top: 5%;
+  right: 5%;
 }
 
 .temporary {

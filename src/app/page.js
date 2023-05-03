@@ -21,7 +21,7 @@ export default async function Home() {
   // console.log(data[0].email);
   return (
     <main className={styles.body}>
-      <div style={{position: "absolute", top: "5%", right: "5%"}}>
+      <div className={styles.header}>
         <AccountHeader></AccountHeader>
       </div>
       <div className={styles.menuContainer}>

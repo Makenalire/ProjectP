@@ -9,13 +9,15 @@ export default async function handler(req, res) {
     }
 
     const { name, email, password } = req.body;
-    console.log(name, email, password);
+
     const client = await clientPromise;
     const db = client.db("auth");
     const coll = await db.collection("users");
 
     if (await coll.findOne({ email })) {
       return res.status(422).json({ message: "This email has been used."});
+    } else if (await coll.findOne({ name })) {
+      return res.status(422).json({ message: "This username has been used."});
     }
     const doc = { email: email, password: password, name: name };
     try {

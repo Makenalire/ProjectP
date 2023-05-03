@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import styles from "./leaderboard.board.css";
+import Trophy from "public/trophy";
 
 export default function Leaderboard() {
   const [scoreList, setScoreList] = useState([]);
@@ -24,16 +26,26 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <main className="">
-      <h1>Leaderboard</h1>
-      <div className="">
+    <main className="screen">
+      <div className="scoreRank">
         {scoreList.length > 0 ? (
           scoreList.map((item, index) => {
-            return (
-              <p className="" key={index}>
-                {index + 1} : {item.name} = {item.score} scores
-              </p>
-            );
+            if (index !== 0) {
+              return (
+                <div key={index} className="list-container">
+                  <div>{item.name}</div>
+                  <div>{item.score}</div>
+                </div>
+              );
+            } else {
+              return (
+                <div key={index}>
+                  <Trophy></Trophy>
+                  <div className="name">{item.name}</div>
+                  <div className="score">SCORE : {item.score}</div>
+                </div>
+              );
+            }
           })
         ) : (
           <p>Loading...</p>

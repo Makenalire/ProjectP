@@ -1,0 +1,36 @@
+.screen {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.name {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.score {
+    border: #ff2b9d solid 3px;
+    border-radius: 20px;
+    box-shadow: 0 0 0 4px #fc46a8, 0 0 0 8px #fddde6, 0 0 0 12px #fc46a8;
+    font-size: 35px;
+    width: fit-content;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 20px;
+}
+
+.scoreRank {
+    font-size: 20px;
+    text-align: center;
+}
+
+.list-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 35px 0px 35px 0px;
+}

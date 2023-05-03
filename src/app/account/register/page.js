@@ -41,6 +41,8 @@ export default function Account() {
       },
     });
     res = await res.json();
+
+    setError(res.message);
     
     if (res.success) {
       router.replace("../account");
@@ -124,6 +126,7 @@ export default function Account() {
               <div></div>
             )}
           </div>
+          <p className={styles.invalid}>{error}&nbsp;</p>
           <button
             className={styles.submit}
             type="submit"
@@ -138,7 +141,6 @@ export default function Account() {
             Sign up
           </button>
         </form>
-        <p>{error}</p>
       </div>
     </main>
   );

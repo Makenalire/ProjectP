@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./profile.module.css";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -17,8 +18,8 @@ export default function Profile() {
   }, [session, status, router]);
 
   if (session) {
-    return (<div><p>Welcome, {JSON.stringify(session.user, 2, null)}</p><button onClick={signOut}>Sign Out</button></div>);
+    return (<main className={styles.body}><div><p>Welcome, {session.user.name}</p><button className={styles.signout} onClick={signOut}>Sign Out</button></div></main>);
   }
 
-  return <h1>Loading...</h1>;
+  return <p>Loading...</p>;
 }
