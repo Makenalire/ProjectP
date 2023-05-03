@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import TestModal from "./Modal";
 
-const TIME = 4;
+const TIME = 80;
 
 // This function receive gameResult parameter as a function.
 function Timer({ propstyle, gameResult }) {

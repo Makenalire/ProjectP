@@ -1,7 +1,7 @@
 export default function gachaRate(rolls) {
     let items = [];
     for (let i = 0; i < rolls; i++) {
-        items.push(weighted_random([{item : {pull:"5stars", color:"#FFD700", size:8}, weight: 20}, {item : {pull:"4stars", color:"#B24BF3", size:6}, weight: 70}, {item : {pull:"3stars", color:"#00FFFF", size:3}, weight: 100}]))
+        items.push(weighted_random([{item : {pull:"5 Multiply Score", color:"#FFD700", size:8}, weight: 20}, {item : {pull:"4 Multiply Score", color:"#B24BF3", size:6}, weight: 70}, {item : {pull:"3 Multiply Score", color:"#00FFFF", size:3}, weight: 100}]))
     }
     return items;
 }

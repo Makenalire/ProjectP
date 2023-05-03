@@ -36,6 +36,11 @@ export default async function Home() {
             Rank
           </Link>
         </div>
+        <div className={styles.borderStart}>
+          <Link className={styles.buttonStart} href="/gacha">
+            Shop
+          </Link>
+        </div>
         <div className={styles.temporary}>
           <HighScore></HighScore>
         </div>

@@ -1,4 +1,4 @@
-body {
+#bgCanvas {
     background: linear-gradient(0deg, #0D235D 0%, #000508 70%);
     height: 100vh;
 }

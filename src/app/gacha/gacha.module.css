@@ -1,13 +1,36 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ff2b9d;
 }
 
 .bgGacha {
-    width: 80%;
-    height: 80%;
-    position: absolute;
-    background-color: #ffffff;
-    opacity: 0.8;
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  background-color: #ffffff;
+  opacity: 0.8;
 }
+
+.gachaRollBtn {
+  border: #ff2b9d solid 3px;
+  border-radius: 8px;
+  background-color: #fddde6;
+  color: black;
+  padding: 25px 25px;
+  font-weight: bold;
+  font-size: 30px;
+  box-shadow: inset -8px -8px #8a0063, inset 2px 2px #8a0063;
+  min-width: 70px;
+  min-height: 70px;
+}
+
+.gachaBtnAlign {
+  position: absolute;
+  top: 80%;
+  transform: translate(0, -50%);
+  display: flex;
+}
+
